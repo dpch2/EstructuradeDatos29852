@@ -1,0 +1,57 @@
+Diagrama de clases (formato textual para PowerDesigner / referencia)
+
+Clase: matriz_Modelo_
+Atributos:
+- float** matriz1
+- float** matriz2
+- float** matriz3
+- float* enserar   // arreglo unidimensional que contendrá los elementos segmentados
+- int filas
+- int columnas
+
+Metodos:
++ void Matriz(int filas, int columnas)
++ void ingresarDatos(int idMatriz)  // idMatriz = 1,2,3 para seleccionar la matriz
++ void enserarMatrices()            // asigna memoria a 'enserar' y copia elementos de matriz1/2/3 en ella (unidimensional)
++ void imprimirMatrices()
++ void procesar()                   // operaciones previas si es necesario
++ float multiplicar()               // realiza la multiplicacion/operación deseada y retorna resultado
++ void liberarMemoria()             // libera matriz1, matriz2, matriz3 y el vector enserar
+
+
+Clase: vista
+Atributos:
+- (ninguno necesario)
+Metodos:
++ void mostrarMensaje(const std::string &msg)
++ void mostrarResultado(float resultado)
+
+
+Clase: controlador : public matriz_Modelo_, public vista
+Atributos:
+- (se sugiere eliminar miembros redundantes 'matriz modelo;' y 'vista vista;')
+Metodos:
++ controlador()
++ void ejecutar()
+
+
+Notas para PowerDesigner:
+- Cree un Diagrama de Clases y añada las tres clases anteriores.
+- Para cada clase, agregue sus atributos y métodos con visibilidad (+ public, - private).
+- Configure tipos: float**, float*, int, std::string.
+- Genere código C++ desde PowerDesigner: Tools -> Generate -> Code -> C++ (si está disponible), o exporte el modelo como XMI y luego use herramientas para convertir a código.
+
+Pasos sugeridos para exportar a C++ en PowerDesigner:
+1. Crear nuevo Data Model (Physical Data Model) o UML Model (dependiendo de la versión).
+2. Añadir un Diagrama de Clases y crear las clases con atributos y métodos.
+3. En el menú Model, usar la opción de generación de código (Model -> Generate Code) y seleccionar C++.
+4. Configurar plantillas de generación si deseas nombres de ficheros concretos.
+5. Exportar y copiar los archivos .h/.cpp generados a tu proyecto en Visual Studio Code.
+
+
+Fichas de diseño (resumen):
+- Asegúrate que 'enserar' es un puntero a float que se asigna con new float[filas*columnas*3] y se libera con delete[].
+- Las matrices 2D (matriz1/2/3) deben ser creadas como float** con memoria dinámica: matriz[i] = new float[columnas]; y después liberar cada fila con delete[] y luego delete[] matriz.
+- IngresarDatos debe pedir los números al usuario mediante cin.
+- No es necesario retornar enserar; se mantiene como miembro de la clase.
+
